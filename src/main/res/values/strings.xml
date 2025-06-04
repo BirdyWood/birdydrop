@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="module_name" translatable="false">BirdyDrop</string>
+    <string name="accept">Accept</string>
+    <string name="discard">Discard</string>
+</resources>
