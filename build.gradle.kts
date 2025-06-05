@@ -18,11 +18,13 @@ android {
 
         aarMetadata {
             minCompileSdk = 24
+
         }
     }
 
     buildTypes {
         release {
+            version = "1.0.0"
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
