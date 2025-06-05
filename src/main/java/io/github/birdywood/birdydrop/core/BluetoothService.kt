@@ -25,6 +25,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.ParcelUuid
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.Timer
@@ -136,7 +137,7 @@ private fun MutableList<DeviceBluetooth>.removeDevice(user: ScanResult) {
 
 
 @SuppressLint("MissingPermission")
-class BluetoothService(ctx: Context,lister: Listener): GenericService(ctx,lister) {
+class BluetoothService(ctx: Activity, lister: Listener): GenericService(ctx,lister) {
     val listUsers = mutableListOf<DeviceBluetooth>()
     val serviceUUID: UUID = UUID.fromString("fcce0000-0483-45ec-9fd7-6e8a3d7c0000")
     val serviceUUIDMain: UUID = UUID.fromString("fcce0001-0483-45ec-9fd7-6e8a3d7c0000")
@@ -154,6 +155,7 @@ class BluetoothService(ctx: Context,lister: Listener): GenericService(ctx,lister
     private val scanPeriod: Long = 10000
     private val listener = lister
     override val limitSize = 512
+    var allPermissionsCheck = false
 
     init {
         checkAllPermissions()
@@ -204,12 +206,17 @@ class BluetoothService(ctx: Context,lister: Listener): GenericService(ctx,lister
     }
 
     fun getLocalBluetoothName(): String {
-        var name: String = bluetoothAdapter.getName()
-        if (name == "") {
-            println("Name is null!")
-            name = bluetoothAdapter.getAddress()
+        if (allPermissionsCheck) {
+            var name: String = bluetoothAdapter.getName()
+            if (name == "") {
+                println("Name is null!")
+                name = bluetoothAdapter.getAddress()
+            }
+            return name
         }
-        return name
+        else{
+            return "Device"
+        }
     }
 
     fun preProcess() {
@@ -544,6 +551,7 @@ class BluetoothService(ctx: Context,lister: Listener): GenericService(ctx,lister
                 ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
             }) {
             log("OK")
+            allPermissionsCheck = true
         } else {
             log("KO")
             ActivityCompat.requestPermissions(context as Activity, REQUIRED_PERMISSIONS, PERMISSION_REQUEST_CODE)

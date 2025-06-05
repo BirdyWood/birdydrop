@@ -58,7 +58,7 @@ import org.json.JSONObject
 
 data class NearbyDevice(val name: MutableState<String>, val device: DeviceBluetooth)
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BirdyDrop(api: ApiBirdydrop, receiveMessage: (String) -> Unit) {
     // This would typically be controlled by a ViewModel or some state outsie
@@ -485,20 +485,6 @@ fun NearbyDeviceItem(
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun BirdyDropSenderPreview() {
-    MaterialTheme {
-        // Simulate the bottom sheet being shown for the preview
-        // In a real app, you'd have a parent Composable managing the sheet state
-        Box(modifier = Modifier.fillMaxSize()) { // Wrap in a Box to simulate screen context
-            BirdyDrop(
-                ApiBirdydrop(LocalContext.current, object : BirdydropUpdateListener {})
-            ) {}
-        }
-    }
-}
 
 @Preview(showBackground = true, name = "Sheet Content Only")
 @Composable

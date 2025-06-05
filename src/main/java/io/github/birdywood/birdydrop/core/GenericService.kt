@@ -1,5 +1,6 @@
 package io.github.birdywood.birdydrop.core
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
@@ -60,7 +61,7 @@ private fun Long.toByteArray(): ByteArray {
  * @property context The application context.
  * @property lister The listener interface for handling service events.
  */
-open class GenericService(ctx: Context, val lister: Listener) {
+open class GenericService(ctx: Activity, val lister: Listener) {
     val context = ctx
     open val limitSize = 128
     private val openMessage:MutableMap<Long, DataMessage> = mutableMapOf()

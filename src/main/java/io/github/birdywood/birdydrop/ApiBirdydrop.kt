@@ -1,5 +1,6 @@
 package io.github.birdywood.birdydrop
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Context.BIND_AUTO_CREATE
@@ -20,7 +21,7 @@ import io.github.birdywood.birdydrop.utils.BirdydropUpdateListener
  * @property ctx The application context.
  * @property listener The primary DataUpdateListener to receive updates from the service.
  */
-class ApiBirdydrop(val ctx: Context, listener: BirdydropUpdateListener) {
+class ApiBirdydrop(val ctx: Activity, listener: BirdydropUpdateListener) {
     var bDropServiceInstance: BDrop_Service? = null
     var isServiceBound = false
     var isSheetBound = false
@@ -90,6 +91,7 @@ class ApiBirdydrop(val ctx: Context, listener: BirdydropUpdateListener) {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
             val binder: BDrop_Service.LocalBinder = iBinder as BDrop_Service.LocalBinder
             bDropServiceInstance = binder.service
+            bDropServiceInstance!!.startBluetoothService(ctx)
             bDropServiceInstance!!.addBirdydropUpdateListener(listener)
             isServiceBound = true
             ble = bDropServiceInstance!!.ble

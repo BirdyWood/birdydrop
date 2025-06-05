@@ -1,5 +1,6 @@
 package io.github.birdywood.birdydrop
 
+import android.app.Activity
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
@@ -40,7 +41,12 @@ class BDrop_Service : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         log("BackgroundTaskService is performing a task! Don't disturb, please!")
-        ble = BluetoothService(this.applicationContext, object : GenericService.Listener {
+
+        return START_STICKY // If the service is killed, it will be automatically restarted
+    }
+
+    fun startBluetoothService( activity: Activity){
+        ble = BluetoothService(activity, object : GenericService.Listener {
             override fun onNewDevice() {
                 update()
             }
@@ -56,7 +62,6 @@ class BDrop_Service : Service() {
         })
         ble!!.preProcess()
         ble!!.sendPing()
-        return START_STICKY // If the service is killed, it will be automatically restarted
     }
 
     private fun update() {
