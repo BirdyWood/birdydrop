@@ -38,22 +38,19 @@ These instructions will help you set up and use BirdyDrop in your Android projec
 1. Initialize BirdyDrop in your application or activity:
     ```kotlin
     val birdyDrop = ApiBirdydrop(this, object : BirdydropUpdateListener {
-            override fun onDataUpdated(data: String?) {
-                // handle the received data here
-            }
-
             override fun onReceiveInfo(info: String) {
 
             }
 
             override fun onNewDevice(devices: List<DeviceBluetooth>) {
+   
             }
         })
     ```
 
 2. Start service:
     ```kotlin
-    birdyDrop.onStart({})
+    birdyDrop.onStart()
     ```
 
 3. Share data:
@@ -68,13 +65,13 @@ These instructions will help you set up and use BirdyDrop in your Android projec
    /* Example to open URL when receiving link */
       val p = Patterns.WEB_URL
       val m = p.matcher(msg)
-      if (m.matches()){ // C'est une URL
+      if (m.matches()){ //It's an URL
           val browserIntent = Intent(
               Intent.ACTION_VIEW, Uri.parse(msg)
           )
           startActivity(browserIntent)
       }else{
-          // Do something
+          // Do something else
       }
    }
     ```
