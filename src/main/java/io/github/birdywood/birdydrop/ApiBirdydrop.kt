@@ -29,7 +29,7 @@ class ApiBirdydrop(val ctx: Activity, listener: BirdydropUpdateListener) {
     var ble: BluetoothService? = null
 
     var connectedFn = {}
-    fun onStart(connected: () -> Unit) {
+    fun onStart(connected: () -> Unit = {}) {
         connectedFn = connected
         val serviceIntent = Intent(
             ctx,
